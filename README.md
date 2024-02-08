@@ -13,6 +13,31 @@ Listens to iio-sensor-proxy and automatically changes Hyprland output orientatio
 
 `paru iio-hyprland-git`
 
+### NixOS
+
+Put this into your `flake.nix`
+```nix
+# flake.nix
+inputs = {
+  # ...
+  iio-hyprland.url = "github:arclight443/iio-hyprland";
+}
+```
+
+Then install the package to your system
+```nix
+# configuration.nix
+
+# Don't forget to pass `inputs`
+{ inputs, options, config, lib , pkgs, ... }:
+# ...
+
+  environment.systemPackages = with pkgs; [
+    # ...
+    inputs.iio-hyprland.defaultPackage.${pkgs.system}
+  ];
+```
+
 
 ### Build from scratch
 
