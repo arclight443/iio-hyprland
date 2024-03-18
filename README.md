@@ -3,7 +3,7 @@ A fork of okeri/iio-sway for Hyprland
 
 Listens to iio-sensor-proxy and automatically changes Hyprland output orientation
 
-## Installing 
+## Installing
 
 :warning: Make sure [iio-sensor-proxy](https://gitlab.freedesktop.org/hadess/iio-sensor-proxy/) running :warning:
 
@@ -12,6 +12,7 @@ Listens to iio-sensor-proxy and automatically changes Hyprland output orientatio
 `yay iio-hyprland-git`
 
 `paru iio-hyprland-git`
+
 
 ### NixOS
 
@@ -32,10 +33,16 @@ Then install the package to your system
 { inputs, options, config, lib , pkgs, ... }:
 # ...
 
+  # Enable iio-sensor-proxy
+  hardware.sensor.iio.enable = true;
+
+  # Install package
   environment.systemPackages = with pkgs; [
     # ...
     inputs.iio-hyprland.defaultPackage.${pkgs.system}
   ];
+
+#...
 ```
 
 
@@ -68,5 +75,8 @@ Some users reported that specifying the monitor in hyprland.conf could be necess
 ## Touch rotation support
 
 Should automatically rotate all Tablets and Touch Devices from `hyprctl devices`.
+
+Hyprland 0.37.0 added `input:touchdevice` and `input:tablet` category to variables, which allows us to rotate all touch inputs at once without needing to loop touch inputs manually.
+
 Thank you to Desktop31 for fetching the `hyprctl devices` output.
 
