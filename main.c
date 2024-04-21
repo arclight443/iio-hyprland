@@ -11,6 +11,8 @@ enum Orientation { Normal, LeftUp, BottomUp, RightUp, Undefined};
 
 DBusError error;
 char* output = "eDP-1"; // Default output device
+char* bg_horizontal = "";
+char* bg_vertical = "";
 
 void dbus_disconnect(DBusConnection* connection) {
     dbus_connection_flush(connection);
@@ -93,6 +95,11 @@ void handle_orientation(enum Orientation orientation) {
     // transform touch devices
     system_fmt("hyprctl keyword input:touchdevice:transform %d", orientation);
     system_fmt("hyprctl keyword input:tablet:transform %d", orientation);
+
+    if (orientation == Normal || orientation == BottomUp )
+      system_fmt("%s", bg_horizontal);
+    else if (orientation == LeftUp || orientation == RightUp )
+      system_fmt("%s", bg_vertical);
 
 }
 
@@ -186,6 +193,11 @@ int main(int argc, char* argv[]) {
     }
     if (argc > 1) {
         output = argv[1];
+    }
+    if (argc > 3) {
+        output = argv[1];
+        bg_horizontal = argv[2];
+        bg_vertical = argv[3];
     }
 
     // if hyprland and iio-hyprland are restarted after display is already rotated,
